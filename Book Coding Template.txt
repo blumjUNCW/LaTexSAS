@@ -1,0 +1,96 @@
+%let path=;
+/**Path to the location of this file
+   TEX version of this code and clean SAS code
+   are placed here also.**/
+%let CodeFileName=;
+/**Name of this file
+   Also becomes prefix for naming of code and
+   output files**/
+%let rc=%sysfunc(dlgcdir("&path/Output"));
+/**Sets working directory to a subfolder
+   named Output in the chosen path. Make
+   sure this folder exists**/
+
+ods noproctitle;/**Defaults to suppressing procedure titles**/
+title;
+footnote;/**Make sure no title or footnote statements linger**/
+options nodate nonumber;/**No dates or numbering on output**/
+
+proc template;
+   define style styles.test;
+     parent=styles.rtf;
+     style body from document /
+           leftmargin=1.55in
+           rightmargin=1.55in;
+   end;
+run;
+
+ods rtf
+      file = "&CodeFileName.RawTables.rtf"
+      style = styles.test;
+ods tagsets.colorlatex 
+      file = "&CodeFileName.RawTables.tex" (notop nobot)
+      stylesheet = "SAS.sty"
+      ;
+
+/**"ProgramName" should also serve as the label in all
+   LaTeX Program and Output boxes and in LSTLISTING and
+   CFBT(ExecuteMetaData) references**/
+
+ods select all;/**See Note 1 Below**/
+proc odstext;
+  p "TableRows=";/**If you want to limit output rows,
+                    specify here. Blank produces the
+                    full table**/
+  p "%<*ProgramName>";
+run;
+
+*ProgramName.StartCode | Comment or title;
+
+/***SAS Code for Program Boxes Here
+    See notes 2, 3, 5, and 6 below
+***/
+
+*EndCode;
+
+*%<*ProgramName.Enumerate>
+1~Call out text corresponding to /*1*/ in code above
+2~Corresponding to /*2*/ ... See note 4 below
+%</ProgramName.Enumerate>;
+
+ods select all;/**See Note 1 Below**/
+proc odstext;
+  p "%</ProgramName>";
+run;
+*Template notes:
+  1--The PROC ODSTEXT invocations create beginning and ending markers for output
+    to be captured by CatchFileBetweenTags in LaTeX. The ODS SELECT ALL preceding
+    each ensures they are in the output, even if the output is otherwise empty.
+  2--Code between *ProgramName.StartCode to *EndCode is the code captured by LstInputListing
+    in LaTeX. After the pipe | , additional text can be used. This text becomes a comment at
+    the top of the cleaned SAS code. It is not included in the code converted to LaTeX.
+  3--Comments of the form /*N*/ included in the code are converted to call out 
+    numbers in LaTeX (they are left as the comment for the SAS code). To ensure proper LaTeX 
+    conversion, the /* */ comment wrapper can only be used for this purpose in the code
+    inside this wrapper. 
+  4--%<*ProgramName.Enumerate> to %</ProgramName.Enumerate> is written as one long SAS
+    comment in the code. The tags are used as the target for CatchFileBetweenTags
+    in LaTeX. Each call out line is prefixed with N~, where N is the number 
+    corresponding to a comment in the code of the form /*N*/. Technically, the number
+    is ignored for LaTeX, just the ~ matters, so make sure you have aligned your list
+    with your numbering in the code.
+  5--Statements can be commented out in the code but displayed in the converted .tex filename 
+    by prepending *RemoveMe to it.
+  6--Statements needed for code function but not wanted in the converted files can be
+    prepended with *dropstatement  
+;
+
+
+ods rtf close;
+ods tagsets.colorlatex close;
+
+options sasmstore=SASPub mstored;
+/**Compiled versions of the cleaing macros are stored in
+   this library. Default parameter settings should work**/ 
+%ConvertCode(CodePath=&path, SASCodeFile=&CodeFileName);
+%OutputClean(OutputPath=&path/Output,OutputName=&CodeFileName);
