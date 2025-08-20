@@ -1,10 +1,8 @@
 %let path=;
-/**Path to the location of this file
-   TEX version of this code and clean SAS code
-   are placed here also.**/
+/**Path to the main directory (where Code and Output folders are located).**/
 %let CodeFileName=;
-/**Name of this file
-   Also becomes prefix for naming of code and
+/**No .sas extension included.
+   Name of this file also becomes prefix for naming of code and
    output files**/
 %let rc=%sysfunc(dlgcdir("&path/Output"));
 /**Sets working directory to a subfolder
@@ -49,6 +47,7 @@ run;
 
 /***SAS Code for Program Boxes Here
     See notes 2, 3, 5, and 6 below
+    Remove this comment.
 ***/
 
 *EndCode;
@@ -89,8 +88,9 @@ run;
 ods rtf close;
 ods tagsets.colorlatex close;
 
-options sasmstore=SASPub mstored;
+libname LaTeXSAS '~/LaTeXSAS';
+options sasmstore=LaTeXSAS mstored;
 /**Compiled versions of the cleaing macros are stored in
    this library. Default parameter settings should work**/ 
-%ConvertCode(CodePath=&path, SASCodeFile=&CodeFileName);
+%ConvertCode(CodePath=&path/Code, SASCodeFile=&CodeFileName);
 %OutputClean(OutputPath=&path/Output,OutputName=&CodeFileName);

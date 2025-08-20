@@ -1,5 +1,5 @@
-libname SASPub '/export/viya/homes/blumj@uncw.edu/SAStoLaTeX';
-options sasmstore=SASPub mstored;/**I have made a permanent library available at start up
+libname LaTeXSAS '~/LaTeXSAS';
+options sasmstore=LaTeXSAS mstored;/**I have made a permanent library available at start up
                                   to store these macros...**/
 
 %macro ConvertCode(CodePath=, SASCodeFile=) / store;

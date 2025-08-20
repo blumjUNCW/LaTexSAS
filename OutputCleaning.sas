@@ -1,4 +1,4 @@
-options sasmstore=SASPub mstored;/**I have made a permanent library available at start up
+options sasmstore=LaTeXSAS mstored;/**I have made a permanent library available at start up
                                   to store these macros...**/
 
 /**padding is set in SAS.STY, so make the default match its setting there**/
