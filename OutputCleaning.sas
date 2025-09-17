@@ -1,7 +1,8 @@
+libname LaTeXSAS '~/LaTeXSAS';
 options sasmstore=LaTeXSAS mstored;/**I have made a permanent library available at start up
                                   to store these macros...**/
 
-/**padding is set in SAS.STY, so make the default match its setting there**/
+/**padding is set in SAS.STY, so we make the default match its setting there**/
 /**lineWidth=.025 is the Latex default, but changable if changed
                       in SAS.STY*/
 %macro OutputClean(OutputPath=,OutputName=,padding=0.1,lineWidth=0.025) / store;

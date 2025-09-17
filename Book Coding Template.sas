@@ -91,6 +91,7 @@ ods tagsets.colorlatex close;
 libname LaTeXSAS '~/LaTeXSAS';
 options sasmstore=LaTeXSAS mstored;
 /**Compiled versions of the cleaing macros are stored in
-   this library. Default parameter settings should work**/ 
+   this repository which is assigned as library with a matching libref.
+   Default parameter settings given below should work**/ 
 %ConvertCode(CodePath=&path/Code, SASCodeFile=&CodeFileName);
 %OutputClean(OutputPath=&path/Output,OutputName=&CodeFileName);
