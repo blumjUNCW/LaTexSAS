@@ -1,0 +1,12 @@
+%ProgramName is the common label and prefix here, matching that used in the original SAS code
+\begin{Program}{Program Title}{ProgramName}
+    \lstinputlisting[linerange=ProgramName.StartCode-EndCode, language=SAS, includerangemarker=false, escapeinside=`~]{Processed-Code-Folder/ProgramNameCode.tex}
+\end{Program}
+
+\begin{enumerateCallOut}
+    \ExecuteMetaData[Processed-Code-Folder/ProgramNameCode.tex]{ProgramName.Enumerate}
+\end{enumerateCallOut}
+
+\begin{Output}{\ref*{P:ProgramName}: Program Title}{ProgramName}
+    \ExecuteMetaData[Processed-Output-Folder/ProgramNameFinalTables.tex]{ProgramName}
+\end{Output}

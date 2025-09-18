@@ -1,0 +1,458 @@
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan
+    }
+\urlstyle{same}
+\usepackage{titletoc}
+\usepackage{tocloft}
+\setlength\cftbeforechapskip{0pt}
+\setlength\cftbeforesecskip{-4pt}
+\setlength\cftbeforesubsecskip{-4pt}
+% table of contents and vertical spacing
+
+\renewcommand{\cftchapfont}{\color{prgHeadBlue}}
+\renewcommand{\cftsecfont}{\color{prgHeadBlue}} 
+\renewcommand{\cftsubsecfont}{\color{prgHeadBlue}}
+\renewcommand{\cftchappagefont}{\color{prgHeadBlue}} 
+\renewcommand{\cftsecpagefont}{\color{prgHeadBlue}}
+\renewcommand{\cftsubsecpagefont}{\color{prgHeadBlue}}
+\renewcommand{\cftchapleader}{\color{prgHeadBlue} \cftdotfill{\cftsecdotsep}} 
+\renewcommand{\cftsecleader}{\color{prgHeadBlue} \cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftsubsecleader}{\color{prgHeadBlue} \cftdotfill{\cftsecdotsep}}
+%TOC coloring
+
+\usepackage{ragged2e}
+\raggedright
+\raggedbottom
+
+\usepackage[color]{sas} % SAS table styles
+
+\usepackage{xcolor}
+\definecolor{prgHeadBlue}{RGB}{43,140,190}
+\definecolor{prgBrdBlue}{RGB}{116,169,207}
+\definecolor{prgBackBlue}{RGB}{241,238,246}
+% Program box colors--header, border, background, also used for other stuff
+
+\definecolor{OutOrange}{RGB}{186,93,31}
+\definecolor{DefBorderGreen}{RGB}{44,162,95}
+\definecolor{DefBackGreen}{RGB}{235,240,235}
+
+\definecolor{GPPBorderGreen}{RGB}{34,162,85}
+\definecolor{GPPBackGreen}{RGB}{235,240,235}
+
+\definecolor{ThmBorderRed}{RGB}{128,0,38}
+\definecolor{ThmBackRed}{RGB}{240,235,240}
+
+\definecolor{ConceptBorder}{RGB}{217,95,2}
+\definecolor{ConceptBack}{RGB}{240,230,230}
+
+\definecolor{DLBorder}{RGB}{51,153,255}
+
+\usepackage{catchfilebetweentags}
+
+\makeatletter
+    \patchcmd{\CatchFBT@Fin@l}{\endlinechar\m@ne}{}
+      {}{\typeout{Unsuccessful patch!}}
+\makeatother
+
+\usepackage{amsmath}
+
+\usepackage{parskip}
+% No paragraph indents
+
+\usepackage[most]{tcolorbox}
+% boxes for stuff
+
+\usepackage{courier}
+\usepackage{listings,lstautogobble}
+\lstset{autogobble=true,
+    showstringspaces=false,
+    basicstyle=\small\ttfamily,
+    upquote=true
+    }
+% listings for code segments, autogobble takes out extra latex code spacing to properly align the start of lines
+% showstringspaces=false removes special character denoting spaces in literals
+
+\usepackage[papersize={8.5in,11in},left=1in,right=1in,top=0.99in,bottom=0.75in]{geometry}
+% setting up page size
+
+\usepackage{caption}
+\captionsetup{figureposition=top,
+             justification=raggedright,
+             singlelinecheck=false,
+            labelfont={color=prgHeadBlue},
+            font={color=prgHeadBlue}
+}
+\numberwithin{figure}{section}
+% Figure caption color, position, and numbering
+
+\usepackage{float}
+% lets you use the H option to "unfloat" a figure
+
+\usepackage{titlesec}
+\titleformat{\chapter}[hang] 
+{\normalfont\LARGE\bfseries\sffamily\color{prgHeadBlue}}
+{\chaptertitlename\ \thechapter:}
+{0.5em}
+{} 
+\titlespacing*{\chapter}{0pt}{2pt}{10pt}
+% titlesec used to hang the titles on chapter/section numbers
+% also to set sizing and spacing
+
+\titleformat*{\section}{\Large\bfseries\sffamily\color{prgHeadBlue}}
+\titleformat*{\subsection}{\large\bfseries\sffamily\color{prgHeadBlue}}
+% section/sub title coloring
+
+\newcounter{cnotenum}
+\newcommand{\cnote}{%
+   \refstepcounter{cnotenum}%
+   \thecnotenum}
+%counter for chapter notes
+
+\usepackage{pifont}
+% set up use of dings font for callouts
+
+\newcommand{\CallOut}[2][prgHeadBlue]{\textcolor{#1}{\ding{\the\numexpr #2+201}}}
+
+\usepackage{enumitem}
+
+\makeatletter
+\newcommand*{\CallOutNum}[1]{\expandafter\@CallOutNum\csname c@#1\endcsname}
+
+\newcommand*{\@CallOutNum}[1]
+    {$\ifcase#1 \or \text{\ding{202}} \or \text{\ding{203}} \or \text{\ding{204}} \or \text{\ding{205}} \or \text{\ding{206}} \or \text{\ding{207}} \or \text{\ding{208}} \or \text{\ding{209}} \or \text{\ding{210}} \or \text{\ding{211}}%
+    \else\@ctrerr\fi$
+    }
+\AddEnumerateCounter{\CallOutNum}{\@CallOutNum}{1}
+\makeatother
+% make special enumeration list function for callout style bulleting
+
+\newenvironment{enumerateCallOut}[1][prgHeadBlue]
+    {
+    \begin{enumerate}[label=\CallOutNum*,font=\textcolor{#1}]
+    }
+    {
+    \end{enumerate}
+    }
+
+
+\newtcbtheorem[number within=section]{Program}{Program}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=prgBackBlue,
+        colframe=prgBrdBlue,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=prgHeadBlue,
+            colframe=prgHeadBlue,
+        } 
+    }{P}
+
+\newtcbtheorem[no counter]{ProgramNoNum}{Program}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=prgBackBlue,
+        colframe=prgBrdBlue,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=prgHeadBlue,
+            colframe=prgHeadBlue,
+        } ,
+        separator sign={\hspace*{-.25em}}
+    }{PNN}
+    
+\newtcbtheorem[no counter]{Output}{Output}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        left=0em,
+        colback=white,
+        colframe=prgBrdBlue,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=prgHeadBlue,
+            colframe=prgHeadBlue,
+        },
+        separator sign={\hspace*{-.25em}}
+    }{out}
+
+
+\newtcbtheorem[no counter]{OutputNoNum}{}{
+        enhanced,
+        sharp corners,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-5mm,
+            yshifttext=-1mm
+        },
+        top=1.5em,
+        colback=white,
+        colframe=prgBrdBlue,
+        fonttitle=\bfseries,
+        boxed title style={
+            sharp corners,
+            size=small,
+            colback=prgHeadBlue,
+            colframe=prgHeadBlue,
+        },
+        separator sign={\hspace*{-.25em}}
+    }{outNN}
+    
+\newtcbtheorem[no counter]{Log}{Log}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=white,
+        colframe=prgBrdBlue,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=prgHeadBlue,
+            colframe=prgHeadBlue,
+        },
+        separator sign={\hspace*{-.25em}}
+    }{log}
+
+\newtcbtheorem[no counter]{Fig}{Figure}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=white,
+        colframe=prgBrdBlue,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=prgHeadBlue,
+            colframe=prgHeadBlue,
+        },
+        separator sign={\hspace*{-.25em}}
+    }{F}
+    
+\newtcbtheorem[number within=section]{Graph}{Graph}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=white,
+        colframe=prgBrdBlue,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=prgHeadBlue,
+            colframe=prgHeadBlue,
+        },
+        separator sign={}
+    }{Graph}
+
+\newtcbtheorem[number within=section]{Definition}{Definition}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1.5em,
+        bottom=0.5em,
+        colback=DefBackGreen,
+        colframe=DefBorderGreen,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=DefBorderGreen,
+            colframe=DefBorderGreen,
+        } 
+    }{def}
+    
+\newtcbtheorem[number within=section]{Tbl}{Table}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=DefBackGreen,
+        colframe=DefBorderGreen,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=DefBorderGreen,
+            colframe=DefBorderGreen,
+        } 
+    }{Table}
+
+\newtcbtheorem[number within=section]{Theorem}{Theorem}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=ThmBackRed,
+        colframe=ThmBorderRed,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=ThmBorderRed,
+            colframe=ThmBorderRed,
+        } 
+    }{thm}
+
+\newtcbtheorem[number within=section]{QBox}{Concept Questions}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1.5em,
+        bottom=0.5em,
+        colback=ConceptBack,
+        colframe=ConceptBorder,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=ConceptBorder,
+            colframe=ConceptBorder,
+        } 
+    }{QBox}
+
+\newtcbtheorem[number within=section]{Ex}{Examples}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1.5em,
+        bottom=0.5em,
+        colback=ConceptBack,
+        colframe=ConceptBorder,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=ConceptBorder,
+            colframe=ConceptBorder,
+        } 
+    }{Ex}
+
+\newtcbtheorem[number within=section]{GPP}{Good Programming Practice}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=GPPBackGreen,
+        colframe=GPPBorderGreen,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=GPPBorderGreen,
+            colframe=GPPBorderGreen,
+        } 
+    }{GPP}
+    
+\newtcbtheorem[number within=section]{DL}{Data Listing}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=white,
+        colframe=DLBorder,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=DLBorder,
+            colframe=DLBorder,
+        } 
+    }{DL}
+
+\newtcbtheorem[no counter]{ABox}{Concept Answers}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=white,
+        colframe=OutOrange,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=OutOrange,
+            colframe=OutOrange,
+        } ,
+        separator sign={\hspace*{-.25em}}
+    }{ABox}
+
+
+\newtcbtheorem[number within=subsection]{Properties}{Properties}{
+        enhanced,
+        attach boxed title to top left={
+            xshift=-1mm,
+            yshift=-4mm,
+        },
+        top=1em,
+        colback=ThmBackRed,
+        colframe=ThmBorderRed,
+        fonttitle=\bfseries,
+        boxed title style={
+            size=small,
+            colback=ThmBorderRed,
+            colframe=ThmBorderRed,
+        } 
+    }{prop}
+    
+\usepackage{cleveref}
+
+\def\notecolor{\begingroup\color{blue}}
+\def\endnotecolor{\endgroup}
+
+\def\warningcolor{\begingroup\color{DefBorderGreen}}
+\def\endwarningcolor{\endgroup}
+
+\def\errorcolor{\begingroup\color{red}}
+\def\enderrorcolor{\endgroup}
+
+\newcommand{\undrscr}[1]{{\textunderscore}#1{\textunderscore}}
+
+% Need:
+% Program (have--decide on final format)
+% Output (have--with method to tie to program numbering)
+% Log (have--with method to tie to program numbering)
+% Input Data
+% Figure (using latex version with mods below)
+% Table
+% First four are tied together (on program number)
+% Figure and table are on their own for special images and tables that are not generated by SAS code
+
+% Vertical spacing of paragraphs and figures
+% Set ragged-right throughout document and ragged-bottom(done)
+% Set up callout enumeration bullets and coloring (done)
+% Set up dings coloring for callouts (done--not elegant, would be better with a special function)
+% Set up title and caption coloring (done)
+% Put in chapter contents (done) and colors (done)
